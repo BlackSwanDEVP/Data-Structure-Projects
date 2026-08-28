@@ -1,0 +1,96 @@
+#include <iostream>
+#include <stack>
+#include <string>
+
+using namespace std;
+
+void DesplegarOpciones() {
+    cout << "\n======= Menú de Comandos =======\n"; 
+    cout << "1. Elemento de hasta arriba\n";
+    cout << "2. Añadir texto\n";
+    cout << "3. Borrar elemento de arriba\n";
+    cout << "4. Mostrar todo el contenido\n"; 
+    cout << "5. Finalizar ejecución\n"; 
+    cout << "Selecciona una opción: ";
+}
+
+void InsertarTexto(stack<char>& pilaCaracteres) {
+    string cadenaIngresada;
+
+    cin.ignore(1000, '\n'); 
+
+    cout << "Escribe el nuevo texto a añadir: ";
+    getline(cin, cadenaIngresada);
+    for (char caracter : cadenaIngresada) {
+        pilaCaracteres.push(caracter);
+    }
+}
+
+void BorrarUltimoElemento(stack<char>& pilaCaracteres) {
+    if (!pilaCaracteres.empty()) {
+        cout << "Se eliminó el elemento: '" << pilaCaracteres.top() << "'" << endl;
+        pilaCaracteres.pop();
+    } else {
+        cout << "No se puede borrar nada, la pila está vacía." << endl;
+    }
+}
+
+void MostrarContenidoPila(stack<char> copiaPila) {
+    cout << "Contenido actual almacenado: ";
+    while (!copiaPila.empty()) {
+        cout << copiaPila.top();
+        copiaPila.pop();
+    }  
+    cout << endl; 
+}
+
+int main() {
+    stack<char> pilaDatos;
+    string lineaInicial;
+
+    cout << "Ingresa el texto inicial para la pila: ";
+    getline(cin, lineaInicial);
+
+    for (char ch : lineaInicial) {
+        pilaDatos.push(ch);
+    }
+
+    int seleccion = 0;
+
+    while (true) {
+        DesplegarOpciones();
+        cin >> seleccion;
+
+        switch (seleccion) {
+            case 1:
+                if (!pilaDatos.empty()) {
+                    cout << "El elemento de hasta arriba es: " << pilaDatos.top() << endl;    
+                } else {
+                    cout << "No hay elementos, la pila está vacía." << endl;
+                }
+                break;
+
+            case 2:
+                InsertarTexto(pilaDatos);
+                break; 
+
+            case 3:
+                BorrarUltimoElemento(pilaDatos);
+                break;
+
+            case 4:
+                MostrarContenidoPila(pilaDatos);
+                break;
+
+            case 5: 
+                cout << "Cerrando el programa..." << endl;
+                return 0;
+
+            default:
+                cout << "Por favor, elige una opción que sea válida." << endl;
+                break;
+        }
+    }
+
+    return 0;
+}
